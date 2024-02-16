@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <img src="#">
+    <button>Fetch Image</button>
+    <form>
+        <input type="text">
+    </form>
+    <script>
+        const img = document.querySelector('img');
+        const fetchButton = document.querySelector('button');
+        const inputText = document.querySelector('input');
+        const searchForm = document.querySelector('form');
+
+        fetchButton.addEventListener("click",() => fetchImage(inputText.value));
+
+        searchForm.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            fetchImage(inputText.value); // Fetch image using the input value
+        });
+
+        fetchImage();
+        function fetchImage(searchQuery = 'cat'){
+            fetch(`https://api.giphy.com/v1/gifs/translate?api_key=szERkAUCiJCyl7DQW5pM0ctuA6wa8HH4&s=${searchQuery}`, { mode: 'cors' })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (response) {
+                img.src = response.data.images.original.url;
+            })
+            .catch(error => console.error('Error fetching image:', error));
+        }
+    </script>
+</body>
+
+</html>
